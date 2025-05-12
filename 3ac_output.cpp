@@ -170,35 +170,86 @@ Opd * OrNode::flatten(Procedure * proc){
 }
 
 Opd * EqualsNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op1 = myExp1->flatten(proc);
+  Opd * op2 = myExp2->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, EQ64, op1, op2));
+  return tmp;
 }
 
 Opd * NotEqualsNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op1 = myExp1->flatten(proc);
+  Opd * op2 = myExp2->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, NEQ64, op1, op2));
+  return tmp;
 }
 
 Opd * LessNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op1 = myExp1->flatten(proc);
+  Opd * op2 = myExp2->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, LT64, op1, op2));
+  return tmp;
 }
 
 Opd * GreaterNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op1 = myExp1->flatten(proc);
+  Opd * op2 = myExp2->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, GT64, op1, op2));
+  return tmp;
 }
 
 Opd * LessEqNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op1 = myExp1->flatten(proc);
+  Opd * op2 = myExp2->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, LTE64, op1, op2));
+  return tmp;
 }
 
 Opd * GreaterEqNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op1 = myExp1->flatten(proc);
+  Opd * op2 = myExp2->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, GTE64, op1, op2));
+  return tmp;
 }
 
 void AssignStmtNode::to3AC(Procedure * proc){
-	TODO(Implement me)
+  Opd * dstOpd = myDst->flatten(proc);
+  Opd * srcOpd = mySrc->flatten(proc);
+  proc->addQuad(new AssignQuad(dstOpd, srcOpd));
 }
 
 void MaybeStmtNode::to3AC(Procedure * proc){
-	TODO(Implement me)
+    Label * elseLbl = proc->makeLabel();
+    Label * endLbl = proc->makeLabel();
+    
+    // Generate EhNode-like behavior to decide which branch to take
+    AuxOpd * condTmp = proc->makeTmp(8);
+    proc->addQuad(new MagicQuad(condTmp));  // Random true/false
+    proc->addQuad(new IfzQuad(condTmp, elseLbl));
+    
+    // True branch - assign mySrc1 to myDst
+    Opd * dstOpd = myDst->flatten(proc);
+    Opd * src1Opd = mySrc1->flatten(proc);
+    proc->addQuad(new AssignQuad(dstOpd, src1Opd));
+    proc->addQuad(new GotoQuad(endLbl));
+    
+    // False branch - assign mySrc2 to myDst
+    Quad * elseQuad = new NopQuad();
+    elseQuad->addLabel(elseLbl);
+    proc->addQuad(elseQuad);
+    
+    Opd * src2Opd = mySrc2->flatten(proc);
+    proc->addQuad(new AssignQuad(dstOpd, src2Opd));
+    
+    // End label
+    Quad * endQuad = new NopQuad();
+    endQuad->addLabel(endLbl);
+    proc->addQuad(endQuad);
 }
 
 void PostIncStmtNode::to3AC(Procedure * proc){
@@ -218,15 +269,89 @@ void FromConsoleStmtNode::to3AC(Procedure * proc){
 }
 
 void IfStmtNode::to3AC(Procedure * proc){
-	TODO(Implement me)
+    // Generate condition code
+    Opd * condOpd = myCond->flatten(proc);
+    
+    // Create exit label
+    Label * exitLbl = proc->makeLabel();
+    
+    // If condition is false, jump to exit label
+    proc->addQuad(new IfzQuad(condOpd, exitLbl));
+    
+    // Generate code for if body
+    for (auto stmt : *myBody) {
+        stmt->to3AC(proc);
+    }
+    
+    // Add nop with exit label
+    Quad * exitQuad = new NopQuad();
+    exitQuad->addLabel(exitLbl);
+    proc->addQuad(exitQuad);
 }
 
 void IfElseStmtNode::to3AC(Procedure * proc){
-	TODO(Implement me)
+    // Generate condition code
+    Opd * condOpd = myCond->flatten(proc);
+    
+    // Create labels for else branch and exit
+    Label * elseLbl = proc->makeLabel();
+    Label * exitLbl = proc->makeLabel();
+    
+    // If condition is false, jump to else label
+    proc->addQuad(new IfzQuad(condOpd, elseLbl));
+    
+    // Generate code for if body
+    for (auto stmt : *myBodyTrue) {
+        stmt->to3AC(proc);
+    }
+    
+    // Jump to exit after true branch
+    proc->addQuad(new GotoQuad(exitLbl));
+    
+    // Add else label
+    Quad * elseQuad = new NopQuad();
+    elseQuad->addLabel(elseLbl);
+    proc->addQuad(elseQuad);
+    
+    // Generate code for else body
+    for (auto stmt : *myBodyFalse) {
+        stmt->to3AC(proc);
+    }
+    
+    // Add exit label
+    Quad * exitQuad = new NopQuad();
+    exitQuad->addLabel(exitLbl);
+    proc->addQuad(exitQuad);
 }
 
 void WhileStmtNode::to3AC(Procedure * proc){
-	TODO(Implement me)
+    // Create labels for loop head and exit
+    Label * headLbl = proc->makeLabel();
+    Label * exitLbl = proc->makeLabel();
+    
+    // Add loop head label
+    Quad * headQuad = new NopQuad();
+    headQuad->addLabel(headLbl);
+    proc->addQuad(headQuad);
+    
+    // Generate condition code
+    Opd * condOpd = myCond->flatten(proc);
+    
+    // If condition is false, jump to exit label
+    proc->addQuad(new IfzQuad(condOpd, exitLbl));
+    
+    // Generate code for loop body
+    for (auto stmt : *myBody) {
+        stmt->to3AC(proc);
+    }
+    
+    // Jump back to loop head
+    proc->addQuad(new GotoQuad(headLbl));
+    
+    // Add exit label
+    Quad * exitQuad = new NopQuad();
+    exitQuad->addLabel(exitLbl);
+    proc->addQuad(exitQuad);
 }
 
 void CallStmtNode::to3AC(Procedure * proc){
