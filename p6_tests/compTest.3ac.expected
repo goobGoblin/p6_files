@@ -1,0 +1,34 @@
+[BEGIN GLOBALS]
+compTest
+[END GLOBALS]
+[BEGIN <init> LOCALS]
+[END <init> LOCALS]
+fun_<init>: enter <init>
+lbl_0:      leave <init>
+[BEGIN compTest LOCALS]
+val1 (local var of 8 bytes)
+val2 (local var of 8 bytes)
+res1 (local var of 8 bytes)
+res2 (local var of 8 bytes)
+tmp0 (tmp var of 8 bytes)
+tmp1 (tmp var of 8 bytes)
+tmp2 (tmp var of 8 bytes)
+tmp3 (tmp var of 8 bytes)
+tmp4 (tmp var of 8 bytes)
+[END compTest LOCALS]
+fun_compTest: enter compTest
+            [val1] := 25
+            [val2] := 17
+            [tmp0] := [val1] GT64 [val2]
+            [res1] := [tmp0]
+            [tmp1] := [val1] EQ64 [val2]
+            [res2] := [tmp1]
+            [tmp2] := [val1] GTE64 [val2]
+            [res1] := [tmp2]
+            [tmp3] := [val1] LTE64 [val2]
+            [res2] := [tmp3]
+            [tmp4] := [val1] NEQ64 [val2]
+            [res1] := [tmp4]
+            setret [res1]
+            goto lbl_1
+lbl_1:      leave compTest

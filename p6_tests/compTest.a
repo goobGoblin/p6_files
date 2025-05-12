@@ -1,0 +1,19 @@
+compTest : () -> bool {
+  val1 : int;
+  val2 : int;
+  res1 : bool;
+  res2 : bool;
+  
+  val1 = 25;
+  val2 = 17;
+  
+  res1 = val1 > val2;
+  res2 = val1 == val2;
+  
+  res1 = val1 >= val2;
+  res2 = val1 <= val2;
+  
+  res1 = val1 != val2;
+  
+  return res1;
+}

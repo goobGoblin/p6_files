@@ -1,0 +1,37 @@
+[BEGIN GLOBALS]
+helperFunc
+callTest
+[END GLOBALS]
+[BEGIN <init> LOCALS]
+[END <init> LOCALS]
+fun_<init>: enter <init>
+lbl_0:      leave <init>
+[BEGIN helperFunc LOCALS]
+num (formal arg of 8 bytes)
+tmp0 (tmp var of 8 bytes)
+[END helperFunc LOCALS]
+fun_helperFunc: enter helperFunc
+            getarg 1 [num]
+            [tmp0] := [num] MULT64 [num]
+            setret [tmp0]
+            goto lbl_1
+lbl_1:      leave helperFunc
+[BEGIN callTest LOCALS]
+a (local var of 8 bytes)
+b (local var of 8 bytes)
+tmp0 (tmp var of 8 bytes)
+tmp1 (tmp var of 8 bytes)
+[END callTest LOCALS]
+fun_callTest: enter callTest
+            [a] := 5
+            setarg 1 [a]
+            call helperFunc
+            getret [tmp0]
+            [b] := [tmp0]
+            setarg 1 [b]
+            call helperFunc
+            getret [tmp1]
+            [a] := [tmp1]
+            setret [a]
+            goto lbl_2
+lbl_2:      leave callTest

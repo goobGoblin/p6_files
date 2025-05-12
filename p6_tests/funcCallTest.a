@@ -1,0 +1,14 @@
+helperFunc : (num : int) -> int {
+  return num * num;
+}
+
+callTest : () -> int {
+  a : int;
+  b : int;
+  
+  a = 5;
+  b = helperFunc(a);
+  a = helperFunc(b);
+  
+  return a;
+}

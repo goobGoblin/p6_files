@@ -44,3 +44,11 @@ p6_tests/boolTest.err
 p6_tests/boolTest.3ac
 p6_tests/arithmeticTest.err
 p6_tests/arithmeticTest.3ac
+p6_tests/compTest.3ac
+p6_tests/compTest.err
+p6_tests/consoleTest.3ac
+p6_tests/consoleTest.err
+p6_tests/controlTest.3ac
+p6_tests/controlTest.err
+p6_tests/funcCallTest.3ac
+p6_tests/funcCallTest.err

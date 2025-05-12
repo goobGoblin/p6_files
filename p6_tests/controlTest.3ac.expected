@@ -1,0 +1,43 @@
+[BEGIN GLOBALS]
+controlTest
+[END GLOBALS]
+[BEGIN <init> LOCALS]
+[END <init> LOCALS]
+fun_<init>: enter <init>
+lbl_0:      leave <init>
+[BEGIN controlTest LOCALS]
+counter (local var of 8 bytes)
+limit (local var of 8 bytes)
+sum (local var of 8 bytes)
+tmp0 (tmp var of 8 bytes)
+tmp1 (tmp var of 8 bytes)
+tmp2 (tmp var of 8 bytes)
+tmp3 (tmp var of 8 bytes)
+tmp4 (tmp var of 8 bytes)
+tmp5 (tmp var of 8 bytes)
+[END controlTest LOCALS]
+fun_controlTest: enter controlTest
+            [counter] := 1
+            [limit] := 5
+            [sum] := 0
+lbl_2:      nop
+            [tmp0] := [counter] LTE64 [limit]
+            IFZ [tmp0] GOTO lbl_3
+            [tmp1] := [sum] ADD64 [counter]
+            [sum] := [tmp1]
+            [tmp2] := [counter] ADD64 1
+            [counter] := [tmp2]
+            goto lbl_2
+lbl_3:      nop
+            [tmp3] := [sum] GT64 10
+            IFZ [tmp3] GOTO lbl_4
+            [tmp4] := [sum] MULT64 2
+            [sum] := [tmp4]
+            goto lbl_5
+lbl_4:      nop
+            [tmp5] := [sum] DIV64 2
+            [sum] := [tmp5]
+lbl_5:      nop
+            setret [sum]
+            goto lbl_1
+lbl_1:      leave controlTest
