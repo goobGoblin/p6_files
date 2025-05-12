@@ -64,15 +64,17 @@ Opd * StrLitNode::flatten(Procedure * proc){
 }
 
 Opd * TrueNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  return new LitOpd("1", 8);
 }
 
 Opd * FalseNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  return new LitOpd("0", 8);
 }
 
 Opd * EhNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new MagicQuad(tmp));
+  return tmp;
 }
 
 Opd * CallExpNode::flatten(Procedure * proc){
