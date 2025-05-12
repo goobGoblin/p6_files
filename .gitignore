@@ -52,3 +52,5 @@ p6_tests/controlTest.3ac
 p6_tests/controlTest.err
 p6_tests/funcCallTest.3ac
 p6_tests/funcCallTest.err
+p6_tests/typeMismatchErr.3ac
+p6_tests/typeMismatchErr.err
