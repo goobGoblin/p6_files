@@ -49,7 +49,8 @@ void FormalDeclNode::to3AC(IRProgram * prog){
 }
 
 void FormalDeclNode::to3AC(Procedure * proc){
-	TODO(Implement me)
+  // Add formal parameter to procedure's formals list
+  proc->gatherFormal(ID()->getSymbol());
 }
 
 Opd * IntLitNode::flatten(Procedure * proc){
