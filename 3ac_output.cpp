@@ -154,11 +154,19 @@ Opd * DivideNode::flatten(Procedure * proc){
 }
 
 Opd * AndNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op1 = myExp1->flatten(proc);
+  Opd * op2 = myExp2->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, AND64, op1, op2));
+  return tmp;
 }
 
 Opd * OrNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op1 = myExp1->flatten(proc);
+  Opd * op2 = myExp2->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, OR64, op1, op2));
+  return tmp;
 }
 
 Opd * EqualsNode::flatten(Procedure * proc){
