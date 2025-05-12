@@ -1,0 +1,11 @@
+boolTest : () -> bool {
+  a : bool;
+  b : bool;
+  c : bool;
+  
+  a = true;
+  b = false;
+  c = eh?;
+  
+  return (a and b) or c;
+}

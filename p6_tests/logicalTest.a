@@ -1,0 +1,14 @@
+logicalTest : () -> bool {
+  a : bool;
+  b : bool;
+  c : bool;
+  
+  a = true;
+  b = false;
+  
+  c = !a;
+  a = a and b;
+  b = a or c;
+  
+  return b;
+}

@@ -1,0 +1,22 @@
+arithmeticTest : () -> int {
+  a : int;
+  b : int;
+  c : int;
+  d : int;
+  e : int;
+  f : int;
+  
+  a = 10;
+  b = 5;
+  
+  c = -a;
+  
+  d = a + b;
+  e = a - b;
+  f = a * b;
+  a = a / b;
+  
+  b = (c + d) * (e - f) / a;
+  
+  return b;
+}

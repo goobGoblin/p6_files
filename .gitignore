@@ -34,3 +34,13 @@ types.d
 types.o
 unparse.d
 unparse.o
+p6_tests/logicalTest.err
+p6_tests/noErrs.3ac
+p6_tests/noErrs.err
+p6_tests/funcTest.err
+p6_tests/logicalTest.3ac
+p6_tests/funcTest.3ac
+p6_tests/boolTest.err
+p6_tests/boolTest.3ac
+p6_tests/arithmeticTest.err
+p6_tests/arithmeticTest.3ac

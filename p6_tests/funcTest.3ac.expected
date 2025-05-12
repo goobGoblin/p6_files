@@ -1,0 +1,33 @@
+[BEGIN GLOBALS]
+funcTest
+[END GLOBALS]
+[BEGIN <init> LOCALS]
+[END <init> LOCALS]
+fun_<init>: enter <init>
+lbl_0:      leave <init>
+[BEGIN funcTest LOCALS]
+param1 (formal arg of 8 bytes)
+param2 (formal arg of 8 bytes)
+sum (local var of 8 bytes)
+product (local var of 8 bytes)
+tmp0 (tmp var of 8 bytes)
+tmp1 (tmp var of 8 bytes)
+tmp2 (tmp var of 8 bytes)
+[END funcTest LOCALS]
+fun_funcTest: enter funcTest
+            getarg 1 [param1]
+            getarg 2 [param2]
+            [tmp0] := [param1] ADD64 [param2]
+            [sum] := [tmp0]
+            [tmp1] := [param1] MULT64 [param2]
+            [product] := [tmp1]
+            [tmp2] := [sum] GT64 [product]
+            IFZ [tmp2] GOTO lbl_2
+            setret [sum]
+            goto lbl_1
+            goto lbl_3
+lbl_2:      nop
+            setret [product]
+            goto lbl_1
+lbl_3:      nop
+lbl_1:      leave funcTest

@@ -1,0 +1,27 @@
+[BEGIN GLOBALS]
+logicalTest
+[END GLOBALS]
+[BEGIN <init> LOCALS]
+[END <init> LOCALS]
+fun_<init>: enter <init>
+lbl_0:      leave <init>
+[BEGIN logicalTest LOCALS]
+a (local var of 8 bytes)
+b (local var of 8 bytes)
+c (local var of 8 bytes)
+tmp0 (tmp var of 8 bytes)
+tmp1 (tmp var of 8 bytes)
+tmp2 (tmp var of 8 bytes)
+[END logicalTest LOCALS]
+fun_logicalTest: enter logicalTest
+            [a] := 1
+            [b] := 0
+            [tmp0] := NOT64 [a]
+            [c] := [tmp0]
+            [tmp1] := [a] AND64 [b]
+            [a] := [tmp1]
+            [tmp2] := [a] OR64 [c]
+            [b] := [tmp2]
+            setret [b]
+            goto lbl_1
+lbl_1:      leave logicalTest

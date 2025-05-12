@@ -1,0 +1,26 @@
+[BEGIN GLOBALS]
+boolTest
+[END GLOBALS]
+[BEGIN <init> LOCALS]
+[END <init> LOCALS]
+fun_<init>: enter <init>
+lbl_0:      leave <init>
+[BEGIN boolTest LOCALS]
+a (local var of 8 bytes)
+b (local var of 8 bytes)
+c (local var of 8 bytes)
+tmp0 (tmp var of 8 bytes)
+tmp1 (tmp var of 8 bytes)
+tmp2 (tmp var of 8 bytes)
+[END boolTest LOCALS]
+fun_boolTest: enter boolTest
+            [a] := 1
+            [b] := 0
+            call randBool
+            getret [tmp0]
+            [c] := [tmp0]
+            [tmp1] := [a] AND64 [b]
+            [tmp2] := [tmp1] OR64 [c]
+            setret [tmp2]
+            goto lbl_1
+lbl_1:      leave boolTest

@@ -1,0 +1,45 @@
+[BEGIN GLOBALS]
+arithmeticTest
+[END GLOBALS]
+[BEGIN <init> LOCALS]
+[END <init> LOCALS]
+fun_<init>: enter <init>
+lbl_0:      leave <init>
+[BEGIN arithmeticTest LOCALS]
+a (local var of 8 bytes)
+b (local var of 8 bytes)
+c (local var of 8 bytes)
+d (local var of 8 bytes)
+e (local var of 8 bytes)
+f (local var of 8 bytes)
+tmp0 (tmp var of 8 bytes)
+tmp1 (tmp var of 8 bytes)
+tmp2 (tmp var of 8 bytes)
+tmp3 (tmp var of 8 bytes)
+tmp4 (tmp var of 8 bytes)
+tmp5 (tmp var of 8 bytes)
+tmp6 (tmp var of 8 bytes)
+tmp7 (tmp var of 8 bytes)
+tmp8 (tmp var of 8 bytes)
+[END arithmeticTest LOCALS]
+fun_arithmeticTest: enter arithmeticTest
+            [a] := 10
+            [b] := 5
+            [tmp0] := NEG64 [a]
+            [c] := [tmp0]
+            [tmp1] := [a] ADD64 [b]
+            [d] := [tmp1]
+            [tmp2] := [a] SUB64 [b]
+            [e] := [tmp2]
+            [tmp3] := [a] MULT64 [b]
+            [f] := [tmp3]
+            [tmp4] := [a] DIV64 [b]
+            [a] := [tmp4]
+            [tmp5] := [c] ADD64 [d]
+            [tmp6] := [e] SUB64 [f]
+            [tmp7] := [tmp5] MULT64 [tmp6]
+            [tmp8] := [tmp7] DIV64 [a]
+            [b] := [tmp8]
+            setret [b]
+            goto lbl_1
+lbl_1:      leave arithmeticTest

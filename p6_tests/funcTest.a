@@ -1,0 +1,13 @@
+funcTest : (param1 : int, param2 : int) -> int {
+  sum : int;
+  product : int;
+  
+  sum = param1 + param2;
+  product = param1 * param2;
+  
+  if (sum > product) {
+    return sum;
+  } else {
+    return product;
+  }
+}
