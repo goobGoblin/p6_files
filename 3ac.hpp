@@ -355,7 +355,6 @@ public:
 	const DataType * nodeType(ASTNode * node);
 	std::set<Opd *> globalSyms();
 	std::string toString(bool verbose=false);
-  void resetLabelCounter() { max_label = 0; }
 private:
 	TypeAnalysis * ta;
 	size_t max_label = 0;
