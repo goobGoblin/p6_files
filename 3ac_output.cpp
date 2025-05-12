@@ -11,6 +11,12 @@ IRProgram * ProgramNode::to3AC(TypeAnalysis * ta){
 }
 
 void FnDeclNode::to3AC(IRProgram * prog){
+  
+  // Register func as global symbol
+  SemSymbol * fnSym = ID()->getSymbol();
+  if (fnSym) {
+    prog->gatherGlobal(fnSym);
+  }
   // Create new procedure object and add to program
   Procedure * proc = prog->makeProc(ID()->getName());
 
