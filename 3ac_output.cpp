@@ -11,7 +11,25 @@ IRProgram * ProgramNode::to3AC(TypeAnalysis * ta){
 }
 
 void FnDeclNode::to3AC(IRProgram * prog){
-	TODO(Dear student please implement me)
+  // Create new procedure object and add to program
+  Procedure * proc = prog->makeProc(ID()->getName());
+
+  // Process formal parameters
+  for (auto formal : *myFormals) {
+    formal->to3AC(proc);
+  }
+
+  // Add getarg quads for each formal parameter
+  size_t i = 1;
+  for (SymOpd * opd : proc->getFormals()) {
+    proc->addQuad(new GetArgQuad(i, opd));
+    i++;
+  }
+
+  // Process function body statements
+  for (auto stmt : *myBody) {
+    stmt->to3AC(proc);
+  }
 }
 
 void FnDeclNode::to3AC(Procedure * proc){
