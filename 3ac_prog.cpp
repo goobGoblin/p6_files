@@ -48,24 +48,29 @@ Opd * IRProgram::makeString(std::string val){
 }
 
 std::string IRProgram::toString(bool verbose){
-	std::string res = "";
-	res += "[BEGIN GLOBALS]\n";
-	for (auto entry : globals){
-		res += entry.second->getName() + "\n";
-	}
-	for (auto entry : strings){
-		res += entry.first->valString();
-		res += " " + entry.second;
-		res += "\n";
-	}
+  std::string res = "";
+  res += "[BEGIN GLOBALS]\n";
+  for (auto entry : globals){
+    res += entry.second->getName() + " (global var of "
+      + std::to_string(entry.second->getWidth())
+      + " bytes)\n";
+  }
+  for (auto entry : strings){
+    res += entry.first->valString();
+    res += " " + entry.second;
+    res += "\n";
+  }
 
-	res += "[END GLOBALS]\n";
-	res += init->toString(verbose);
+  res += "[END GLOBALS]\n";
 
-	for (Procedure * proc : *procs){
-		res += proc->toString(verbose);
-	}
-	return res;
+  // Skip the init procedure in the output
+  // If init is the first procedure in the list, start from the second one
+  for (Procedure * proc : *procs){
+    if (proc != init) {  // Skip the init procedure
+      res += proc->toString(verbose);
+    }
+  }
+  return res;
 }
 
 std::set<Opd *> IRProgram::globalSyms(){
