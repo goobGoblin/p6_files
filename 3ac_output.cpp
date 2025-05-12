@@ -385,15 +385,26 @@ void ReturnStmtNode::to3AC(Procedure * proc){
 }
 
 void VarDeclNode::to3AC(Procedure * proc){
-	SemSymbol * sym = ID()->getSymbol();
-	assert(sym != nullptr);
-	proc->gatherLocal(sym);
+  SemSymbol * sym = ID()->getSymbol();
+  if (sym == nullptr){
+    throw new InternalError("null sym");
+  }
+  proc->gatherLocal(sym);
+
+  // If there's an initializer, generate assignment
+  if (myInit != nullptr) {
+    Opd * dstOpd = proc->getSymOpd(sym);
+    Opd * srcOpd = myInit->flatten(proc);
+    proc->addQuad(new AssignQuad(dstOpd, srcOpd));
+  }
 }
 
 void VarDeclNode::to3AC(IRProgram * prog){
-	SemSymbol * sym = ID()->getSymbol();
-	assert(sym != nullptr);
-	prog->gatherGlobal(sym);
+  SemSymbol * sym = ID()->getSymbol();
+  if (sym == nullptr){
+    throw new InternalError("null sym");
+  }
+  prog->gatherGlobal(sym);
 }
 
 //We only get to this node if we are in a stmt
