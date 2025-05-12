@@ -1,16 +1,7 @@
-consoleTest : () -> void {
-  value : int;
+simpleConsoleTest : () -> void {
+  x : int;
   
-  toconsole "Enter a number: ";
-  
-  fromconsole value;
-  
-  toconsole "You entered: ";
-  toconsole value;
-  
-  if (value > 10) {
-    toconsole "That's greater than 10!";
-  } else {
-    toconsole "That's less than or equal to 10.";
-  }
+  toconsole "Message 1";
+  fromconsole x;
+  toconsole x;
 }

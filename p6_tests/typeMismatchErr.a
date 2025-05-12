@@ -1,0 +1,11 @@
+typeMismatchError : () -> int {
+  a : int;
+  b : bool;
+  
+  a = 5;
+  b = true;
+  
+  a = b;
+  
+  return a;
+}

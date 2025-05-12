@@ -1,28 +1,16 @@
 [BEGIN GLOBALS]
-consoleTest
-str_3 "That's less than or equal to 10."
-str_2 "That's greater than 10!"
-str_1 "You entered: "
-str_0 "Enter a number: "
+simpleConsoleTest
+str_0 "Message 1"
 [END GLOBALS]
 [BEGIN <init> LOCALS]
 [END <init> LOCALS]
 fun_<init>: enter <init>
 lbl_0:      leave <init>
-[BEGIN consoleTest LOCALS]
-value (local var of 8 bytes)
-tmp0 (tmp var of 8 bytes)
-[END consoleTest LOCALS]
-fun_consoleTest: enter consoleTest
+[BEGIN simpleConsoleTest LOCALS]
+x (local var of 8 bytes)
+[END simpleConsoleTest LOCALS]
+fun_simpleConsoleTest: enter simpleConsoleTest
             WRITE str_0
-            READ [value]
-            WRITE str_1
-            WRITE [value]
-            [tmp0] := [value] GT64 10
-            IFZ [tmp0] GOTO lbl_2
-            WRITE str_2
-            goto lbl_3
-lbl_2:      nop
-            WRITE str_3
-lbl_3:      nop
-lbl_1:      leave consoleTest
+            READ [x]
+            WRITE [x]
+lbl_1:      leave simpleConsoleTest
