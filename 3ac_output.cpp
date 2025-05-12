@@ -78,7 +78,33 @@ Opd * EhNode::flatten(Procedure * proc){
 }
 
 Opd * CallExpNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  // Process and gather all argument expressions
+  std::list<Opd *> argOpds;
+  for(auto arg : *myArgs) {
+    argOpds.push_back(arg->flatten(proc));
+  }
+
+  // Generate SetArg quads for each argument
+  size_t i = 1;
+  for(auto argOpd : argOpds) {
+    proc->addQuad(new SetArgQuad(i, argOpd));
+    i++;
+  }
+
+  SemSymbol * fnSym = myCallee->getSymbol();
+  proc->addQuad(new CallQuad(fnSym));
+
+  const FnType * fnType = fnSym->getDataType()->asFn();
+  const DataType * retType = fnType->getReturnType();
+
+  // Handle return value if function is not void
+  if(!retType->isVoid()) {
+    AuxOpd * retOpd = proc->makeTmp(8);
+    proc->addQuad(new GetRetQuad(retOpd));
+    return retOpd;
+  }
+
+  return nullptr;
 }
 
 Opd * NegNode::flatten(Procedure * proc){
