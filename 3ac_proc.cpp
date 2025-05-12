@@ -34,8 +34,7 @@ std::string Procedure::toString(bool verbose){
 	res += "[BEGIN " + this->getName() + " LOCALS]\n";
 	for (const auto formal : this->formals){
 		res += formal->getName() + " (formal arg of "
-			+ std::to_string(formal->getWidth()) + ")\n";
-			+ " bytes)\n";
+			+ std::to_string(formal->getWidth()) + "bytes)\n";
 	}
 
 	for (auto local : this->locals){
