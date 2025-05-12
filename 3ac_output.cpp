@@ -78,9 +78,27 @@ Opd * FalseNode::flatten(Procedure * proc){
 }
 
 Opd * EhNode::flatten(Procedure * proc){
-  AuxOpd * tmp = proc->makeTmp(8);
-  proc->addQuad(new MagicQuad(tmp));
-  return tmp;
+    // Create a temporary operand to store the result
+    AuxOpd * tmpOpd = proc->makeTmp(8);
+    
+    // Create a SemSymbol for randBool (only once)
+    static SemSymbol * randBoolSym = nullptr;
+    if (!randBoolSym) {
+        // Create it the first time
+        // Fix the TypeList creation
+        std::list<TypeNode *> * emptyNodeList = new std::list<TypeNode *>();
+        const TypeList * typeList = TypeList::produce(emptyNodeList);
+        const FnType * fnType = FnType::produce(typeList, BasicType::BOOL());
+        randBoolSym = new FnSymbol("randBool", fnType);
+    }
+    
+    // Add the call to randBool
+    proc->addQuad(new CallQuad(randBoolSym));
+    
+    // Add a GetRetQuad to get the return value
+    proc->addQuad(new GetRetQuad(tmpOpd));
+    
+    return tmpOpd;
 }
 
 Opd * CallExpNode::flatten(Procedure * proc){
