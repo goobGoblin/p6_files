@@ -122,19 +122,35 @@ Opd * NotNode::flatten(Procedure * proc){
 }
 
 Opd * PlusNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op2 = myExp2->flatten(proc);
+  Opd * op1 = myExp1->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, ADD64, op1, op2));
+  return tmp;
 }
 
 Opd * MinusNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op1 = myExp1->flatten(proc);
+  Opd * op2 = myExp2->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, SUB64, op1, op2));
+  return tmp;
 }
 
 Opd * TimesNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op1 = myExp1->flatten(proc);
+  Opd * op2 = myExp2->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, MULT64, op1, op2));
+  return tmp;
 }
 
 Opd * DivideNode::flatten(Procedure * proc){
-	TODO(Implement me)
+  Opd * op2 = myExp2->flatten(proc);
+  Opd * op1 = myExp1->flatten(proc);
+  AuxOpd * tmp = proc->makeTmp(8);
+  proc->addQuad(new BinOpQuad(tmp, DIV64, op1, op2));
+  return tmp;
 }
 
 Opd * AndNode::flatten(Procedure * proc){
