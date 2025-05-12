@@ -11,6 +11,8 @@ IRProgram * ProgramNode::to3AC(TypeAnalysis * ta){
 }
 
 void FnDeclNode::to3AC(IRProgram * prog){
+
+  prog->resetLabelCounter();
   // Create new procedure object and add to program
   Procedure * proc = prog->makeProc(ID()->getName());
 
