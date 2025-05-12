@@ -273,11 +273,13 @@ void PostDecStmtNode::to3AC(Procedure * proc){
 }
 
 void ToConsoleStmtNode::to3AC(Procedure * proc){
-	TODO(Implement me)
+  Opd * srcOpd = mySrc->flatten(proc);
+  proc->addQuad(new WriteQuad(srcOpd, proc->getProg()->nodeType(mySrc)));
 }
 
 void FromConsoleStmtNode::to3AC(Procedure * proc){
-	TODO(Implement me)
+  Opd * dstOpd = myDst->flatten(proc);
+  proc->addQuad(new ReadQuad(dstOpd, proc->getProg()->nodeType(myDst)));
 }
 
 void IfStmtNode::to3AC(Procedure * proc){
@@ -367,11 +369,19 @@ void WhileStmtNode::to3AC(Procedure * proc){
 }
 
 void CallStmtNode::to3AC(Procedure * proc){
-	TODO(Implement me)
+  // Just flatten the call expression
+  myCallExp->flatten(proc);
 }
 
 void ReturnStmtNode::to3AC(Procedure * proc){
-	TODO(Implement me)
+  // If there's an expression, generate code for it and set return value
+  if (myExp != nullptr) {
+    Opd * retOpd = myExp->flatten(proc);
+    proc->addQuad(new SetRetQuad(retOpd));
+  }
+
+  // Jump to procedure's leave label
+  proc->addQuad(new GotoQuad(proc->getLeaveLabel()));
 }
 
 void VarDeclNode::to3AC(Procedure * proc){
